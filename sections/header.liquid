@@ -1,0 +1,137 @@
+<nav id="main-nav" class="navbar fixed-top navbar-expand-md navbar-light">
+  <a id="navbar-logo" class="navbar-brand" href="#">
+    <img class="navbar-logo" src="{{ section.settings.logo | img_url: '213x' }}" alt="{{ shop.name }}">
+  </a>
+  <!-- Toggler/collapsibe Button -->
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <!-- Navbar links -->
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ml-auto">
+    {% for link in linklists.main-menu.links %}
+      {% if link.links != blank %}
+      <li {% if link.active %}class="nav-item current dropdown"{% else %}class="nav-item dropdown"{% endif %}>
+        <a class="nav-link dropdown-toggle" href="{{ link.url }}" data-toggle="dropdown">{{ link.title }}</a>
+        <div class="dropdown-menu">
+        {% for child_link in link.links %}
+          <a class="dropdown-item" href="{{ child_link.url }}">{{ child_link.title }}</a>  
+        {% endfor %}
+        </div>
+      </li>
+      {% else %}
+      <li {% if link.active %}class="nav-item current"{% else %}class="nav-item"{% endif %}>
+        <a class="nav-link" href="{{ link.url }}">{{ link.title }}</a>
+      </li>
+      {% endif %}
+    {% endfor %}     
+    </ul>
+  </div> 
+</nav>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [  
+      {
+        "type": "header",
+        "content": "Announcement bar"
+      },
+      {
+        "type": "checkbox",
+        "id": "announcement_bar_enabled",
+        "label": "Show announcement",
+        "default": false
+      },
+      {
+        "type": "checkbox",
+        "id": "announcement_bar_home_page_only",
+        "label": "Show on home page only",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "announcement_bar_text",
+        "label": "Announcement text",
+        "default": "Announce something here"
+      },
+      {
+        "type": "url",
+        "id": "announcement_bar_link",
+        "label": "Announcement link",
+        "info": "Optional"
+      },
+      {
+        "type": "header",
+        "content": "Header"
+      },
+      {
+        "type": "image_picker",
+        "id": "logo",
+        "label": "Logo image"
+      },
+      {
+        "type": "range",
+        "id": "logo_max_width",
+        "min": 50,
+        "max": 450,
+        "step": 10,
+        "unit": "px",
+        "label": "Custom logo width",
+        "default": 450
+      },
+      {
+        "type": "link_list",
+        "id": "menu",
+        "label": "Menu",
+        "default": "main-menu"
+      }
+    ]
+  }
+{% endschema %}
+
+{% stylesheet %}
+  
+{% endstylesheet %}
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "{{ shop.name }}",
+  {% if section.settings.logo %}
+    {% assign image_size = section.settings.logo.width | append:'x' %}
+    "logo": "https:{{ section.settings.logo | img_url: image_size }}",
+  {% endif %}
+  "sameAs": [
+    "{{ settings.social_twitter_link }}",
+    "{{ settings.social_facebook_link }}",
+    "{{ settings.social_pinterest_link }}",
+    "{{ settings.social_instagram_link }}",
+    "{{ settings.social_tumblr_link }}",
+    "{{ settings.social_snapchat_link }}",
+    "{{ settings.social_youtube_link }}",
+    "{{ settings.social_vimeo_link }}"
+  ],
+  "url": "{{ shop.url }}{{ page.url }}"
+}
+</script>
+
+{% if template.name == 'index' %}
+  <script type="application/ld+json">
+    {
+      "@context": "http://schema.org",
+      "@type": "WebSite",
+      "name": "{{ shop.name }}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "{{ shop.url }}/search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      },
+      "url": "{{ shop.url }}{{ page.url }}"
+    }
+  </script>
+{% endif %}

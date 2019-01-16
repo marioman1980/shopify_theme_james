@@ -1,0 +1,73 @@
+  <footer class="container-fluid">
+    <hr>
+    <div class="row">
+      <div class="col-sm-4">
+        <span class="footer-col">
+          <i class="fas fa-map-marker-alt fa-fw"></i>
+          {{ shop.name }}<br>
+          <span class="address-line">{{ shop.address.address1 }}</span><br>
+          <span class="address-line">{{ shop.address.city }}</span><br>
+          <span class="address-line">{{ shop.address.zip }}</span><br>
+          <i class="fas fa-phone fa-fw"></i>
+          {{ shop.phone }}<br>
+          <i class="fas fa-envelope fa-fw"></i>
+          applestone@applestone.com
+        </span>
+      </div>
+      <div class="col-sm-4">
+        <span class="footer-col">
+          <ul class="navbar-nav ml-auto">
+          {% for link in linklists.main-menu.links %}
+            <li>
+              <a href="{{ link.url }}">{{ link.title }}</a>
+            </li>
+          {% endfor %}     
+          </ul>
+        </span>
+      </div>  
+      <div class="col-sm-4">
+        <span class="footer-col">
+          <form class="search" action="/search">
+            <input type="text" placeholder="Search" name="q" value="{{ search.terms | escape }}"  />
+            <input type="submit" value="Search" />
+          </form>          
+        </span>
+      </div>                 
+    </div>
+  </footer>
+
+{% schema %}
+  {
+    "name": "Footer",
+    "settings": [
+      {
+        "type": "text",
+        "id": "address_line_1",
+        "label": "Address Line 1"
+      },
+      {
+        "type": "text",
+        "id": "address_line_2",
+        "label": "Address Line 2"
+      },
+      {
+        "type": "text",
+        "id": "address_line_3",
+        "label": "Address Line 3"
+      },                
+      {
+        "type": "link_list",
+        "id": "footer_linklist",
+        "label": "First menu",
+        "default": "footer"
+      },
+      {
+        "type": "checkbox",
+        "id": "show_payment_icons",
+        "label": "Show payment icons",
+        "default": false
+      }
+    ]
+  }
+
+{% endschema %}

@@ -1,0 +1,28 @@
+<div class="collection-home">
+  {% if collection.image != blank or collection.products.first != blank %}
+    <a href="{{ collection.url }}">
+      <img src="{{ collection.image.src | collection_img_url: 'medium' }}" alt="{{ product.image.alt | escape }}" style="width: 100%"/>
+    </a>
+    <div class="collection-sub-menu">
+      <div class="collection-title">
+        <ul>
+          <li>
+            <span>{{ collection.title}}</span>
+            <ul class="collection-dropdown">
+              <hr>
+            {% for link in linklists[collection.handle].links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>  
+            {% endfor %}  
+            </ul>          
+          </li>
+        </ul>
+      </div>
+    </div>  
+    <p>
+      {{ collection.description }}
+    </p>
+  {% elsif collection == empty %}
+    {% capture current %}{% cycle 1, 2, 3, 4, 5, 6 %}{% endcapture %}
+    {{ 'collection-' | append: current | placeholder_svg_tag: 'placeholder-svg placeholder-svg--small' }}
+  {% endif %}    
+</div>

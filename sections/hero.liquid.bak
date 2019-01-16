@@ -1,0 +1,42 @@
+<div class="hero">
+  <h2 id="content-title">{{ shop.name }}</h2>
+</div>  
+
+<style>
+  .hero {
+    height: 380px; 
+    margin-top: 94px; 
+    background-image: url("{{ section.settings.hero | img_url: '880x590' }}");
+    background-repeat: no-repeat; 
+    background-position: 50.00% 38.40%; 
+    background-size: 100%; 
+    background-color: transparent; 
+    background-size: cover
+  }
+</style>
+
+{% schema %}
+  {
+    "name": "Header",
+    "settings": [ 
+      {
+        "type": "image_picker",
+        "id": "hero",
+        "label": "Hero image"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Hero",
+        "category": "Hero",
+        "settings": [ 
+          {
+            "type": "image_picker",
+            "id": "hero",
+            "label": "Hero image"
+          }
+        ]        
+      }
+    ]
+  }
+{% endschema %}    
