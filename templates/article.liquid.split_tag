@@ -6,11 +6,9 @@
   http://docs.shopify.com/themes/liquid-variables/comment
 {%- endcomment -%}
 
-{% comment %}<script>
-  $(document).ready(function(){
-    $( "img" ).parent().parent().after( "<!-- split -->" );
-  });  
-</script>{% endcomment %}
+  FOO
+
+  {{ article.image.src }}
 
 {%- assign new_comment = false -%}
 {%- assign number_of_comments = article.comments_count -%}
@@ -56,17 +54,20 @@
   </header>
 
   <div class="rte">
-    {% assign article_split = article.content | split: '</span></p>' %}
-    {{ article_split.size }}
+    {% assign article_split = article.content | split: 'alt="' %}
     {% for article_section in article_split %}
-      {% if article_section contains '<img' %}
-        {% assign image_alt = article_section | split: 'alt="' | last | split: '">' | first %}
-        {{ article_section }}<p>FOOFOO</p>
-        {{ image_alt }}
+      {% if article_section contains "<img" %}
+        {{ article_section }}
+        {% assign alt = article_section | split: 'alt="' %}
+        {% assign alt = alt[1] | split: 'alt="' %}
+        {{ alt[1] }}
+        SOME RELATED PRODUCTS
       {% else %}
         {{ article_section }}
       {% endif %}
     {% endfor %}
+{% comment %}    {{ article_split[0] }}
+    {{ article.content }}{% endcomment %}
   </div>
 
   {% if article.tags.size > 0 %}
@@ -184,7 +185,6 @@
   {% endif %}
 
 </article>
-
 
 <script type="application/ld+json">
 {

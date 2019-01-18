@@ -57,11 +57,11 @@
 
   <div class="rte">
     {% assign article_split = article.content | split: '</span></p>' %}
-    {{ article_split.size }}
     {% for article_section in article_split %}
       {% if article_section contains '<img' %}
+        {% comment %}{% assign image_alt =  article_section | split: 'alt="' %}{% endcomment %}
         {% assign image_alt = article_section | split: 'alt="' | last | split: '">' | first %}
-        {{ article_section }}<p>FOOFOO</p>
+        {{ article_section }}
         {{ image_alt }}
       {% else %}
         {{ article_section }}
