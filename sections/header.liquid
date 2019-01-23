@@ -9,7 +9,20 @@
 
   <!-- Navbar links -->
   <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav ml-auto">
+
+    <ul class="navbar-nav ml-auto" style="margin-left: 0">
+      <form class="form-inline my-2 my-lg-0" action="/search" method="get" role="search">
+        <input type="search"
+          name="q"
+          id="Search-{{ section.id }}"
+          class="form-control mr-sm-2"
+          value="{{ search.terms | escape }}"
+          placeholder="{{ 'general.search.placeholder' | t }}"
+          aria-label="Search">
+        <button type="submit" class="btn my-2 my-sm-0">
+          {% include 'icon-search' %}
+        </button>
+      </form>    
     {% for link in linklists.main-menu.links %}
       {% if link.links != blank %}
       <li {% if link.active %}class="nav-item current dropdown"{% else %}class="nav-item dropdown"{% endif %}>
